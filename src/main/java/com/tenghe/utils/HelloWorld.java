@@ -5,7 +5,7 @@ package com.tenghe.utils;
  */
 public class HelloWorld {
     public static void main(String[] args) {
-        System.out.println();
+        System.out.println("test git merge.");
         System.out.println("hello world!");
     }
 }
