@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+CURRENT_DIR=`pwd`
+GIT=git
+MODULE=
+
+function exec() {
+  dir=$1
+  cd $CURRENT_DIR/$dir
+  shift
+  echo -e "\033[32m === $dir === :: $GIT "$*" \033[0m"
+  gitCmd=$1
+  shift
+  $GIT $gitCmd $*
+  cd $CURRENT_DIR
+  echo -e "\033[34m ------------------------------------------------ \033[0m"
+  echo
+}
+
+if [ "$1" = "all" ]; then
+  MODULE=all
+elif [ -d "$CURRENT_DIR/$1" ]; then
+  MODULE=$1
+fi
+
+shift
+
+if [ "$MODULE" = "all" ]; then
+  for dir in $(ls)
+  do
+    [ -d $dir ] && exec $dir "$@"
+  done
+else
+  cd $MODULE
+  $GIT $@
+fi
+
+
+

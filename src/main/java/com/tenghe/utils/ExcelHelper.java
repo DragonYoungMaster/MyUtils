@@ -33,8 +33,10 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellRangeAddress;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -358,6 +360,36 @@ public final class ExcelHelper {
     //插入图片
     patriarch.createPicture(anchor, wb.addPicture(bytes, HSSFWorkbook.PICTURE_TYPE_JPEG));
   }
+
+  public static void main(String[] args) throws IOException{
+    List<List<String>> rows = readExcelToList(new File("D:\\信息安全及规章(6-5).xls"), 1, null);
+    OutputStream outputStream = null;
+    try {
+      outputStream = new FileOutputStream("D:\\信息安全及规章(6-5).txt");
+      for (List<String> row : rows) {
+        int index = 0;
+        for (String item : row) {
+          index++;
+          if (1==index || 2==index || 3 ==index) {
+            outputStream.write((item + "\n").getBytes());
+          } else if (index % 2 == 0){
+            outputStream.write((item + " ").getBytes());
+          } else {
+            outputStream.write((item + "\t\t").getBytes());
+          }
+        }
+        outputStream.write("\n\n".getBytes());
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      if (outputStream != null) {
+        outputStream.close();
+      }
+    }
+  }
+
+
 }
 
 
